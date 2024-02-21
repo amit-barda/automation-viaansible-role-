@@ -14,7 +14,8 @@
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
-#Installs the following packages (the packages can be change or add packages be change what come after "loop:") 
+#Installs the following packages (the packages can be change or add packages 
+#be change what come after "loop:") 
 - name: Install packages
   package:
     name: "{{ item }}"
