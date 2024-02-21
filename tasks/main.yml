@@ -9,8 +9,6 @@
 - name: Update the system (Debian)
   apt:
     upgrade: dist
-    autoremove: yes
-    autoclean: yes
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
@@ -54,4 +52,3 @@
       RedHat hosts: {{ groups['all'] | map('extract', hostvars, ['ansible_os_family']) | select('equalto', 'RedHat') | list | length }}
       Debian hosts: {{ groups['all'] | map('extract', hostvars, ['ansible_os_family']) | select('equalto', 'Debian') | list | length }}
   run_once: true
-
