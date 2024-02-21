@@ -1,0 +1,8 @@
+---
+#Restart the web server after copying the html file
+- name: Restart Apache
+  service:
+    #The condition if it's RedHat do a rest to httpd
+    name: "{{ 'httpd' if ansible_os_family == 'RedHat' else 'apache2' }}"
+    state: restarted
+

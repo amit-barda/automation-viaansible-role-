@@ -1,0 +1,55 @@
+---
+#Updates the Linux installation packages depends OS distribution
+- name: Update the system (RedHat)
+  yum:
+    name: "*"
+    state: latest
+  when: ansible_os_family == 'RedHat'
+
+- name: Update the system (Debian)
+  apt:
+    upgrade: dist
+    autoremove: yes
+    autoclean: yes
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+#Installs the following packages
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - htop
+    - tree
+
+#Installing the web servers depends on OS distribution
+- name: Install Httpd HTTP Server on RedHat-based systems
+  yum:
+    name: httpd
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Install Apache Server on Debian-based systems
+  apt:
+    name: apache2
+    state: present
+  when: ansible_os_family == 'Debian'
+
+#copy a HTML file from master to hosts(can be any html file anywhare on master just need to change the src path )
+- name: Copy HTML files to hosts
+  copy:
+    src:  /home/ubuntu/ANSIBLE/index.html
+    dest: /var/www/html/
+  #The web server needs to reset before we can see the changes
+  notify: Restart Apache
+
+
+# Prints the types of operating systems and how many there are of each
+- name: Print how many RedHat and Debian hosts
+  debug:
+    msg: |
+      RedHat hosts: {{ groups['all'] | map('extract', hostvars, ['ansible_os_family']) | select('equalto', 'RedHat') | list | length }}
+      Debian hosts: {{ groups['all'] | map('extract', hostvars, ['ansible_os_family']) | select('equalto', 'Debian') | list | length }}
+  run_once: true
+
