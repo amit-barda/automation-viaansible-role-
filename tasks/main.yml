@@ -14,7 +14,7 @@
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
-#Installs the following packages
+#Installs the following packages (the packages can be change or add packages be change what come after "loop:") 
 - name: Install packages
   package:
     name: "{{ item }}"
@@ -23,7 +23,8 @@
     - htop
     - tree
 
-#Installing the web servers depends on OS distribution
+#Installing the web servers depends on OS distribution (or change to ngnix, mysql or any software whose installation is done 
+#this way; "apt/yum install what-we-want-to-install"
 - name: Install Httpd HTTP Server on RedHat-based systems
   yum:
     name: httpd
@@ -36,10 +37,10 @@
     state: present
   when: ansible_os_family == 'Debian'
 
-#copy a HTML file from master to hosts(can be any html file anywhare on master just need to change the src path )
+#copy a HTML file from master to hosts(can be any file anywhare on clients hosts just need to change the "dest:" path )
 - name: Copy HTML files to hosts
   copy:
-    src:  /home/ubuntu/ANSIBLE/index.html
+    src:  files/index.html #or Any file we put in the folder
     dest: /var/www/html/
   #The web server needs to reset before we can see the changes
   notify: Restart Apache
