@@ -1,9 +1,10 @@
 ---
+# copy file from a files folder to hosts 
   - name: Copy file 1.txt to host
     copy:
       src: files/1.txt
       dest: /home/1.txt
-
+# print 3 time default message with variable who change each time (that variable can be change by changing what come after "loop;") 
   - name: Print message three times using a loop
     debug:
       msg: "This is message {{ item }}"
@@ -11,15 +12,15 @@
       - "dima"
       - "give me pls"
       - "100"
-
+# print the OS family of host
   - name: Print os_family of host
     debug:
       msg: "OS family of the host is {{ ansible_os_family }}"
-
+# set a variable 
   - name: Set variable
     set_fact:
       my_variable: "dima ty for 100"
-
+# print the same variable 
   - name: Print variable
     debug:
       msg: "{{ my_variable }}"
