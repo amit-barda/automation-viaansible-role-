@@ -24,20 +24,21 @@
   - name: Print variable
     debug:
       msg: "{{ my_variable }}"
-
+# Ensure log directory exists
   - name: Ensure log directory exists
     delegate_to: localhost
     file:
       path: /files
       state: directory
-
+# Save host IP in log.txt on master
   - name: Save host IP in log.txt on master
     delegate_to: localhost
     shell: echo "{{ ansible_host }}" >> /files/log.txt
+# Reboot host
   - name: Reboot host
     delegate_to: "{{ inventory_hostname }}"
     reboot:
-
+# Save reboot time in log.txt
   - name: Save reboot time in log.txt
     delegate_to: localhost
     shell: "echo 'Host {{ inventory_hostname }} rebooted at $(date -Ins)' >> /files/log.txt"
