@@ -1,4 +1,4 @@
-# ansible
+# Ansible
 As part of my DevOps studies, I was asked to create an ansible role that does the following steps
 
 copy file from a files folder to hosts 
